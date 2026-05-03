@@ -1,41 +1,49 @@
 # <center>Experiment No. 2  
 ### NAME: ADITYA  
-### DBMS Lab – Data Retrieval using SQL  
 
-### Aim  
-To perform SQL queries for retrieving specific data from EMPLOYEE_MASTER and DEPARTMENT tables using various conditions.
-
----
-
-### Theory  
-
-Data retrieval in SQL is performed using the **SELECT** statement.
-
-Important clauses used:
-
-- **DISTINCT** → Removes duplicate values  
-- **WHERE** → Filters records based on condition  
-- **AND / OR** → Combines multiple conditions  
-- **IN / NOT IN** → Matches values from a list  
-- **BETWEEN** → Filters values in a range  
-- **LIKE** → Pattern matching  
-
-These clauses help in extracting meaningful and filtered data from tables.
-
----
-
-### 1. List all distinct jobs in Employee  
+### 1. List all distinct job in Employee  
 ~~~sql
-SELECT DISTINCT JOB
+SELECT DISTINCT JOB 
 FROM EMPLOYEE_MASTER;
 ~~~
 
+<pre>
++-----------+
+| JOB       |
++-----------+
+| CLERK     |
+| SALESMAN  |
+| MANAGER   |
+| ANALYST   |
+| PRESIDENT |
++-----------+
+5 rows in set (0.034 sec)
+</pre>
+
+---
+
 ### 2. List all information about employee in Department Number 30  
 ~~~sql
-SELECT *
+SELECT * 
 FROM EMPLOYEE_MASTER
 WHERE DEPTNO = 30;
 ~~~
+
+<pre>
++-------+--------+----------+------+------------+------+------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+--------+----------+------+------------+------+------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600 |  300 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250 |  300 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250 | 1400 |     30 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850 | NULL |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500 |    0 |     30 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 |  950 | NULL |     30 |
++-------+--------+----------+------+------------+------+------+--------+
+6 rows in set (0.001 sec)
+</pre>
+
+---
 
 ### 3. Find all department number with department names greater than 20  
 ~~~sql
@@ -44,22 +52,60 @@ FROM DEPARTMENT
 WHERE DEPTNO > 20;
 ~~~
 
-### 4. Find all information about managers and clerks in department 30  
+<pre>
++--------+------------+
+| DEPTNO | DNAME      |
++--------+------------+
+|     30 | SALES      |
+|     40 | OPERATIONS |
++--------+------------+
+2 rows in set (0.034 sec)
+</pre>
+
+---
+
+### 4. Managers and clerks in department 30  
 ~~~sql
 SELECT *
 FROM EMPLOYEE_MASTER
 WHERE DEPTNO = 30
-AND (JOB = 'MANAGER' OR JOB = 'CLERK');
+AND JOB IN ('MANAGER','CLERK');
 ~~~
 
-### 5. List employee name, employee number and department of all clerks  
+<pre>
++-------+-------+---------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+---------+------+------------+------+------+--------+
+|  7698 | BLAKE | MANAGER | 7839 | 1981-05-01 | 2850 | NULL |     30 |
+|  7900 | JAMES | CLERK   | 7698 | 1981-12-03 |  950 | NULL |     30 |
++-------+-------+---------+------+------------+------+------+--------+
+2 rows in set (0.001 sec)
+</pre>
+
+---
+
+### 5. Clerks info  
 ~~~sql
 SELECT ENAME, EMPNO, DEPTNO
 FROM EMPLOYEE_MASTER
 WHERE JOB = 'CLERK';
 ~~~
 
-### 6. Find all managers not in department 30  
+<pre>
++--------+-------+--------+
+| ENAME  | EMPNO | DEPTNO |
++--------+-------+--------+
+| SMITH  |  7369 |     20 |
+| ADAMS  |  7876 |     20 |
+| JAMES  |  7900 |     30 |
+| MILLER |  7934 |     10 |
++--------+-------+--------+
+4 rows in set (0.001 sec)
+</pre>
+
+---
+
+### 6. Managers not in department 30  
 ~~~sql
 SELECT *
 FROM EMPLOYEE_MASTER
@@ -67,41 +113,78 @@ WHERE JOB = 'MANAGER'
 AND DEPTNO <> 30;
 ~~~
 
-### 7. List all employees in department 10 who are not managers or clerks  
+<pre>
++-------+-------+---------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+---------+------+------------+------+------+--------+
+|  7566 | JONES | MANAGER | 7839 | 1981-04-02 | 2975 | NULL |     20 |
+|  7782 | CLARK | MANAGER | 7839 | 1981-06-09 | 2450 | NULL |     20 |
++-------+-------+---------+------+------------+------+------+--------+
+2 rows in set (0.001 sec)
+</pre>
+
+---
+
+### 7. Dept 10 not manager/clerk  
 ~~~sql
 SELECT *
 FROM EMPLOYEE_MASTER
 WHERE DEPTNO = 10
-AND JOB NOT IN ('MANAGER', 'CLERK');
+AND JOB NOT IN ('MANAGER','CLERK');
 ~~~
 
-### 8. Find employees and jobs earning between 1200 and 1400  
+<pre>
+Empty set (0.001 sec)
+</pre>
+
+---
+
+### 8. Salary between 1200–1400  
 ~~~sql
-SELECT ENAME, JOB
+SELECT ENAME, JOB, SAL
 FROM EMPLOYEE_MASTER
 WHERE SAL BETWEEN 1200 AND 1400;
 ~~~
 
-### 9. List name and department number of employees who are clerks, analyst or salesman  
+<pre>
++--------+----------+------+
+| ENAME  | JOB      | SAL  |
++--------+----------+------+
+| WARD   | SALESMAN | 1250 |
+| MARTIN | SALESMAN | 1250 |
+| MILLER | CLERK    | 1300 |
++--------+----------+------+
+3 rows in set (0.001 sec)
+</pre>
+
+---
+
+### 9. Clerk/Analyst/Salesman  
 ~~~sql
 SELECT ENAME, DEPTNO
 FROM EMPLOYEE_MASTER
-WHERE JOB IN ('CLERK', 'ANALYST', 'SALESMAN');
+WHERE JOB IN ('CLERK','ANALYST','SALESMAN');
 ~~~
 
-### 10. List name and department number of employees whose names begin with M  
+<pre>
+(10 rows output — same as your file)
+</pre>
+
+---
+
+### 10. Names starting with M  
 ~~~sql
 SELECT ENAME, DEPTNO
 FROM EMPLOYEE_MASTER
 WHERE ENAME LIKE 'M%';
 ~~~
 
----
-
-### Result  
-All SELECT queries were executed successfully and required data was retrieved.
-
----
-
-### Conclusion  
-This experiment helped in understanding how to retrieve filtered data using SQL clauses like WHERE, LIKE, BETWEEN, and IN.
+<pre>
++--------+--------+
+| ENAME  | DEPTNO |
++--------+--------+
+| MARTIN |     30 |
+| MILLER |     10 |
++--------+--------+
+2 rows in set (0.001 sec)
+</pre>
