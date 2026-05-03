@@ -1,77 +1,127 @@
+# <center>Experiment No. 1  
+### NAME: ADITYA  
+### DBMS Lab – DDL, DML and DQL Operations  
 
-# <center>Experiment No.1 
+### Aim  
+To perform and understand SQL operations including table creation, insertion, deletion, updating and modification using Employee and Department tables.
+
+---
+
+### Theory  
+
+SQL (Structured Query Language) is used to manage and manipulate relational databases.
+
+**DDL (Data Definition Language):**  
+Used to define database structure (CREATE, ALTER, DROP)
+
+**DML (Data Manipulation Language):**  
+Used to modify data (INSERT, UPDATE, DELETE)
+
+**DQL (Data Query Language):**  
+Used to retrieve data (SELECT)
+
+**Constraints Used:**  
+PRIMARY KEY, FOREIGN KEY, NOT NULL  
+
+These commands help in creating, managing and modifying structured data efficiently.
+
+---
+
+### 1. Create Employee_master Table  
 ~~~sql
-SHOW DATABASES;
-
-CREATE DATABASE company_db;
-
-USE company_db;
-
-CREATE TABLE DEPARTMENT (
-    DEPTNO INT(2) PRIMARY KEY,
-    DNAME VARCHAR(15) NOT NULL
-);
-
-CREATE TABLE EMPLOYEE (
-    EMPNO INT(4) PRIMARY KEY,
+CREATE TABLE Employee_master(
+    EMPNO INT PRIMARY KEY,
     ENAME VARCHAR(20) NOT NULL,
     JOB VARCHAR(20),
-    MGR INT(4),
+    MGR INT,
     HIREDATE DATE,
     SAL INT(10),
     COMM INT(7),
     DEPTNO INT(2),
-    CONSTRAINT FK_EMP_DEPT
-        FOREIGN KEY (DEPTNO)
-        REFERENCES DEPARTMENT(DEPTNO)
+    FOREIGN KEY(DEPTNO) REFERENCES Department(DEPTNO)
 );
-
-INSERT INTO DEPARTMENT VALUES (10, 'RESEARCH');
-INSERT INTO DEPARTMENT VALUES (20, 'ACCOUNTING');
-INSERT INTO DEPARTMENT VALUES (30, 'SALES');
-INSERT INTO DEPARTMENT VALUES (40, 'OPERATIONS');
-
-INSERT INTO EMPLOYEE VALUES
-(7369,'SMITH','CLERK',7902,'1980-12-17',800,NULL,20),
-(7499,'ALLEN','SALESMAN',7698,'1981-02-20',1600,300,30),
-(7521,'WARD','SALESMAN',7698,'1981-02-22',1250,300,30),
-(7566,'JONES','MANAGER',7839,'1981-04-02',2975,NULL,20),
-(7654,'MARTIN','SALESMAN',7698,'1981-09-28',1250,1400,30),
-(7698,'BLAKE','MANAGER',7839,'1981-05-01',2850,NULL,30),
-(7782,'CLARK','MANAGER',7839,'1981-06-09',2450,NULL,20),
-(7788,'SCOTT','ANALYST',7566,'1982-12-09',3000,NULL,40),
-(7839,'KING','PRESIDENT',NULL,'1981-11-17',5000,NULL,20),
-(7844,'TURNER','SALESMAN',7698,'1981-09-08',1500,0,30),
-(7876,'ADAMS','CLERK',7788,'1983-01-12',1100,NULL,20),
-(7900,'JAMES','CLERK',7698,'1981-12-03',950,NULL,30),
-(7902,'FORD','ANALYST',7566,'1981-12-03',3000,NULL,20),
-(7934,'MILLER','CLERK',7782,'1982-01-23',1300,NULL,10);
-
 ~~~
-### 1. Create Employee_master table with data using Employee.
+
+### 2. Describe Employee_master Table  
 ~~~sql
-CREATE TABLE EMPLOYEE_MASTER
-AS
-SELECT * FROM EMPLOYEE;
+DESC Employee_master;
 ~~~
-### 2. Delete all record into Employee_master whose DeptNo is 10.
+
+### 3. Describe Department Table  
 ~~~sql
-DELETE FROM EMPLOYEE_MASTER
+DESC Department;
+~~~
+
+### 4. Insert Data into Department  
+~~~sql
+INSERT INTO Department (DEPTNO, DNAME) VALUES
+(10, 'RESEARCH'),
+(20, 'ACCOUNTING'),
+(30, 'SALES'),
+(40, 'OPERATIONS');
+~~~
+
+### 5. Display Department Table  
+~~~sql
+SELECT * FROM Department;
+~~~
+
+### 6. Insert Data into Employee_master  
+~~~sql
+INSERT INTO Employee_master
+(EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES
+(7369, 'SMITH', 'CLERK', 7902, '1980-12-17', 800, NULL, 20),
+(7499, 'ALLEN', 'SALESMAN', 7698, '1981-02-20', 1600, 300, 30),
+(7521, 'WARD', 'SALESMAN', 7698, '1981-02-22', 1250, 300, 30),
+(7566, 'JONES', 'MANAGER', 7839, '1981-04-02', 2975, NULL, 20),
+(7654, 'MARTIN', 'SALESMAN', 7698, '1981-09-28', 1250, 1400, 30),
+(7698, 'BLAKE', 'MANAGER', 7839, '1981-05-01', 2850, NULL, 30),
+(7782, 'CLARK', 'MANAGER', 7839, '1981-06-09', 2450, NULL, 20),
+(7788, 'SCOTT', 'ANALYST', 7566, '1982-12-09', 3000, NULL, 40),
+(7839, 'KING', 'PRESIDENT', NULL, '1981-11-17', 5000, NULL, 20),
+(7844, 'TURNER', 'SALESMAN', 7698, '1981-09-08', 1500, 0, 30),
+(7876, 'ADAMS', 'CLERK', 7788, '1983-01-12', 1100, NULL, 20),
+(7900, 'JAMES', 'CLERK', 7698, '1981-12-03', 950, NULL, 30),
+(7902, 'FORD', 'ANALYST', 7566, '1981-12-03', 3000, NULL, 20),
+(7934, 'MILLER', 'CLERK', 7782, '1982-01-23', 1300, NULL, 10);
+~~~
+
+### 7. Display Employee_master Table  
+~~~sql
+SELECT * FROM Employee_master;
+~~~
+
+### 8. Delete Records where DEPTNO = 10  
+~~~sql
+DELETE FROM Employee_master
 WHERE DEPTNO = 10;
 ~~~
-### 3. Update 10% in his salary of DEPTNO 20 into  Employee_Master. 
+
+### 9. Update Salary by 10% where DEPTNO = 20  
 ~~~sql
-UPDATE EMPLOYEE_MASTER
-SET SAL = SAL + (SAL * 0.10)
+UPDATE Employee_master
+SET SAL = SAL * 1.10
 WHERE DEPTNO = 20;
 ~~~
-### 4. Alter SAL with size 10,2 in Employee_Master. 
+
+### 10. Alter Table (Modify SAL Data Type)  
 ~~~sql
-ALTER TABLE EMPLOYEE_MASTER
-MODIFY SAL DECIMAL(10,2);
-~~~
-### 5. Drop Employee_master Table. 
-~~~sql
-DROP TABLE EMPLOYEE_MASTER;
+ALTER TABLE Employee_master
+MODIFY SAL FLOAT(10,2);
 ~~~
 
+### 11. Drop Employee_master Table  
+~~~sql
+DROP TABLE Employee_master;
+~~~
+
+---
+
+### Result  
+All SQL operations such as CREATE, INSERT, UPDATE, DELETE and ALTER were successfully executed.
+
+---
+
+### Conclusion  
+This experiment helped in understanding practical implementation of SQL commands and how data is managed inside relational databases.
